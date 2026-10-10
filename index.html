@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日一签</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f7f4ed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      text-align: center;
+      max-width: 360px;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .card.hide {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    .card.shake {
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+
+    .fortune {
+      font-size: 22px;
+      color: #333;
+      margin-bottom: 16px;
+    }
+
+    .thanks {
+      font-size: 16px;
+      color: #777;
+      line-height: 1.6;
+    }
+
+    button {
+      margin-top: 24px;
+      padding: 10px 28px;
+      border: none;
+      border-radius: 8px;
+      background: #4a7c59;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.1s ease, background 0.2s ease;
+    }
+
+    button:hover { background: #3d6649; }
+    button:active { transform: scale(0.95); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="fortune" id="fortune">点击下方按钮，抽今日一签</div>
+    <div class="thanks" id="thanks"></div>
+    <button onclick="draw()">抽一签</button>
+  </div>
+
+  <script>
+    const fortunes = [
+      { luck: "今日宜专注", thanks: "感谢那个愿意静下心来的自己。" },
+      { luck: "今日宜休息", thanks: "感谢身体一直在默默支撑你。" },
+      { luck: "今日宜主动", thanks: "感谢你敢开口、敢尝试的勇气。" },
+      { luck: "今日宜温柔", thanks: "感谢你对别人、也对自己保持善意。" },
+      { luck: "今日宜坚持", thanks: "感谢你没有因为难就放弃。" },
+      { luck: "今日宜放下", thanks: "感谢你允许自己不再纠结。" },
+      { luck: "今日宜开始", thanks: "感谢你愿意为一件小事迈出第一步。" },
+      { luck: "今日宜读书", thanks: "感谢你还愿意给大脑留一点安静的时间。" },
+      { luck: "今日宜早睡", thanks: "感谢你终于决定对自己好一点。" },
+      { luck: "今日宜微笑", thanks: "感谢你还能对生活保持一点点温柔。" }
+    ];
+
+    function typeText(el, text, delay = 30) {
+      el.textContent = "";
+      [...text].forEach((ch, i) => {
+        setTimeout(() => { el.textContent += ch; }, i * delay);
+      });
+    }
+
+    function draw() {
+      const card = document.querySelector(".card");
+
+      card.classList.add("shake");
+      setTimeout(() => card.classList.remove("shake"), 400);
+
+      card.classList.add("hide");
+
+      setTimeout(() => {
+        const idx = Math.floor(Math.random() * fortunes.length);
+        typeText(document.getElementById("fortune"), fortunes[idx].luck);
+        typeText(document.getElementById("thanks"), fortunes[idx].thanks);
+        card.classList.remove("hide");
+      }, 400);
+    }
+  </script>
+</body>
+</html>
